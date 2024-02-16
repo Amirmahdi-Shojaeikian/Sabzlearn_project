@@ -12,7 +12,7 @@ console.log(port);
 })()
 
 app.get("/", (req, res) =>{
-    console.log(req.header("Authorization").split(" ")[1]);
+    console.log(req.header("Authorization")?.split(" ")[1]);
     res.json({
         message : "ok"
     })

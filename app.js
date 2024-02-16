@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 app.use("/v1/auth", authRouter)
-app.use("/v1/user", userRouter)
+app.use("/v1/users", userRouter)
 
 
 
