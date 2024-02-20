@@ -60,7 +60,7 @@ exports.removeUser = async (req, res) => {
 
     const user = await userModel.findOne({_id : id})
 
-    let newRole = user.role == "Admin" ? "USER" : "ADMIN"
+    let newRole = user.role == "ADMIN" ? "USER" : "ADMIN"
 
     const updateUser = await userModel.findByIdAndUpdate({_id : id},{
         role : newRole
