@@ -36,7 +36,7 @@ const schema = new mongoose.Schema({
 
 
 
-const model = new mongoose.Model("Comment", schema)
+const model = new mongoose.model("Comment", new mongoose.Schema(schema))
 
 module.exports = model
 
