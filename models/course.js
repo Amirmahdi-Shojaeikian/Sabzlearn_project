@@ -26,8 +26,9 @@ const schema = mongoose.Schema({
         required: true,
     },
     status:{
-        type:String,
-        required: true
+        type: String,
+        enum: ["Presell", "End" ,"Performing"],
+        default : "Presell",
     },
     discount:{
         type:Number,
@@ -43,6 +44,7 @@ const schema = mongoose.Schema({
         ref: "User",
         required: true
     },
+
 },
 { timestamps: true })
 

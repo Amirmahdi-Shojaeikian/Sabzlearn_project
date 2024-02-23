@@ -37,6 +37,7 @@ exports.create = async (req, res) => {
 }
 
 
+
 exports.createSession = async (req, res) => {
     const { title, time, free } = req.body
     const { id } = req.params
@@ -51,6 +52,17 @@ exports.createSession = async (req, res) => {
     return res.status(201).json(sessions);
 }
 
+exports.presell = async (req,res) =>{
+    const presellCourse = await courseModel.find({status : "Presell"})
+
+    return res.json(presellCourse)
+}
+exports.popular = async (req,res) =>{
+    // const popularCourse = await courseUsersModel.find({ course : course._id}).countDocuments();
+
+
+    // return res.json(popularCourse)
+}
 
 exports.getAll = async (req, res) => {
     const sessions = await sessionsModel.find({}).populate("course", "name").lean()
@@ -119,21 +131,39 @@ exports.getCategoryById = async (req, res) => {
 }
 
 
-exports.getOne = async (req, res) => {
+exports. getOne = async (req, res) => {
 
     const course = await courseModel
         .findOne({ href: req.params.href })
         .populate("creator", "-password")
         .populate("categoryId")
-
-    const session = await sessionsModel.find({ course: course._id}).lean();
-    const comment = await commentsModel.find({ course: course._id }).lean();
+console.log(course);
+    const session = await sessionsModel.find({ course: course._id})
+    const comments = await commentsModel.find({ course: course._id , isAccept : 1 })
+    .populate("creator", "-password")
+    .populate("course")
+    .lean();
 
     const courseStudentCount = await courseUsersModel.find({ course : course._id}).countDocuments();
     const isUserBuyCourse = !!(await courseUsersModel.findOne({ course: course._id , user:req.user._id }))
 
+    let allComments = [];
 
-    return res.json({ course, session, comment ,courseStudentCount,isUserBuyCourse  })
+    comments.forEach((comment) => {
+        comments.forEach((answerComment) => {
+          if (String(comment._id) == String(answerComment.mainCommentId)) {
+            allComments.push({
+              ...comment,
+              course: comment.course.name,
+              creator: comment.creator.name,
+              answerComment,
+            });
+          }
+        });
+      });
+    
+
+    return res.json({ course, session, comments:allComments ,courseStudentCount,isUserBuyCourse  })
 }
 
 
@@ -176,3 +206,4 @@ exports.relatedCourse = async (req,res) =>{
 
     return res.json(relatedCourses)
 }
+

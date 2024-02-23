@@ -7,6 +7,8 @@ const coursesController = require("./../../controllers/v1/course");
 
 const router = express.Router();
 
+router.route("/presell").get(coursesController.presell)
+router.route("/popular").get(coursesController.popular)
 router.route("/:href").get(authMiddleware,coursesController.getOne)
 router.route("/:id").delete(authMiddleware,coursesController.remove)
 router.route("/related/:href").get(authMiddleware,coursesController.relatedCourse)
