@@ -11,7 +11,6 @@ module.exports = async (req, res, next) => {
   }
 
   const token = authHeader[1];
-  console.log(token);
 
   try {
     const jwtPayload = jwt.verify(token, process.env.JWT_SECRET);

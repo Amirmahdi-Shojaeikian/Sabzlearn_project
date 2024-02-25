@@ -6,7 +6,10 @@ const commentsController = require("./../../controllers/v1/comment")
 const router = express.Router();
 
 
-router.route("/").post(authMiddleware, commentsController.create)
+router
+    .route("/")
+    .post(authMiddleware, commentsController.create)
+    .get(authMiddleware,isAdminMiddleware,commentsController.getAll)
 
 router.route("/:id").delete(authMiddleware,isAdminMiddleware, commentsController.remove)
 

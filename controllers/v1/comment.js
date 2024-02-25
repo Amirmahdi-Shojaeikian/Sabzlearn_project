@@ -20,8 +20,15 @@ exports.create = async (req, res) => {
     return res.status(201).json(comment)
 };
 
+exports.getAll = async (req, res) => {
+    const comments = await commentsModel
+        .find()
+        .populate("course")
+        .populate("creator")
+        .lean()
 
-
+    return res.json(comments)
+}
 exports.remove = async (req, res) => {
     const commentDelete = await commentsModel.findOneAndDelete({ _id: req.params.id })
 
@@ -79,7 +86,7 @@ exports.answer = async (req, res) => {
         creator: req.user._id,
         isAnswer: 1,
         isAccept: 1,
-        mainCommentId : req.params.id
+        mainCommentId: req.params.id
     })
 
     return res.status(201).json(answerComment)
