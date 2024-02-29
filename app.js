@@ -14,6 +14,7 @@ const notificationsRouter = require("./routes/v1/notification")
 const offsRouter = require("./routes/v1/off")
 const articlesRouter = require("./routes/v1/article")
 const orderRouter = require("./routes/v1/order")
+const ticketsRouter = require("./routes/v1/ticket")
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.use("/v1/notifications", notificationsRouter)
 app.use("/v1/offs", offsRouter)
 app.use("/v1/articles", articlesRouter)
 app.use("/v1/orders", orderRouter)
+app.use("/v1/tickets", ticketsRouter)
 
 
 
